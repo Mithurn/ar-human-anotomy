@@ -119,6 +119,7 @@ export class ARSession {
       }
       document.getElementById("hint-text").textContent = "Drag to rotate, pinch to zoom";
       document.getElementById("ar-status").textContent = "Preview mode - no surface detection";
+      this.labelSystem.startGuidedLearning();
     });
   }
 

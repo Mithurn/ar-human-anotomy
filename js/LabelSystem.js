@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { ANATOMY_DATA } from "./AnatomyData.js";
+import { ANATOMY_DATA, GUIDED_LEARNING } from "./AnatomyData.js";
 
 export class LabelSystem {
   constructor(state, camera, interaction) {
@@ -9,6 +9,13 @@ export class LabelSystem {
     this.raycaster = new THREE.Raycaster();
     this.tapPoint = new THREE.Vector2();
     this.visible = false;
+    this.hotspotLayer = document.getElementById("hotspot-layer");
+    this.hotspotButtons = new Map();
+    this.activePartKey = null;
+    this.currentTourIndex = 0;
+    this.tmpVector = new THREE.Vector3();
+    this.tmpSize = new THREE.Vector3();
+    this.tmpCenter = new THREE.Vector3();
 
     document.getElementById("ar-canvas").addEventListener("touchend", (event) => {
       if (!this.state.modelPlaced || event.changedTouches.length === 0) return;
@@ -38,9 +45,12 @@ export class LabelSystem {
     });
 
     document.getElementById("label-close").addEventListener("click", () => this.hide());
+    document.getElementById("label-prev").addEventListener("click", () => this.stepTour(-1));
+    document.getElementById("label-next").addEventListener("click", () => this.stepTour(1));
   }
 
   onTap() {
+    if (this.shouldUseGuidedLearning()) return;
     if (!this.state.currentModel) return;
     if (navigator.xr && !this.interaction.wasTap()) return;
 
@@ -71,9 +81,28 @@ export class LabelSystem {
     this.show(this.formatName(rawName), `Part of the ${organ} anatomy.`);
   }
 
-  show(name, desc) {
+  show(name, desc, whyItMatters = "", tourState = null) {
+    document.getElementById("label-kicker").textContent = this.shouldUseGuidedLearning()
+      ? "Lungs Learning Mode"
+      : "Anatomy Detail";
     document.getElementById("label-name").textContent = name;
     document.getElementById("label-desc").textContent = desc;
+    const why = document.getElementById("label-why");
+    if (whyItMatters) {
+      why.textContent = `Why it matters: ${whyItMatters}`;
+      why.classList.remove("hidden");
+    } else {
+      why.classList.add("hidden");
+    }
+
+    const tour = document.getElementById("label-tour");
+    if (tourState) {
+      document.getElementById("label-progress").textContent = `${tourState.index + 1} / ${tourState.total}`;
+      tour.classList.remove("hidden");
+    } else {
+      tour.classList.add("hidden");
+    }
+
     document.getElementById("label-popup").classList.remove("hidden");
     this.visible = true;
   }
@@ -81,9 +110,104 @@ export class LabelSystem {
   hide() {
     document.getElementById("label-popup").classList.add("hidden");
     this.visible = false;
+    this.activePartKey = null;
+    this.updateHotspotState();
   }
 
-  update() {}
+  update() {
+    if (this.shouldUseGuidedLearning()) {
+      this.renderGuidedHotspots();
+      return;
+    }
+
+    this.clearHotspots();
+  }
+
+  shouldUseGuidedLearning() {
+    return this.state.selectedOrgan === "lungs" && this.state.currentModel && !this.state.xrSession;
+  }
+
+  renderGuidedHotspots() {
+    const steps = GUIDED_LEARNING.lungs;
+    const box = new THREE.Box3().setFromObject(this.state.currentModel);
+    box.getSize(this.tmpSize);
+    box.getCenter(this.tmpCenter);
+
+    steps.forEach((step, index) => {
+      const button = this.getOrCreateHotspot(step, index);
+      this.tmpVector.set(
+        this.tmpCenter.x + (this.tmpSize.x * step.anchor.x),
+        this.tmpCenter.y + (this.tmpSize.y * step.anchor.y),
+        this.tmpCenter.z + (this.tmpSize.z * step.anchor.z)
+      );
+
+      this.tmpVector.project(this.camera);
+      const x = ((this.tmpVector.x + 1) * 0.5) * window.innerWidth;
+      const y = ((1 - this.tmpVector.y) * 0.5) * window.innerHeight;
+      const isVisible = this.tmpVector.z > -1 && this.tmpVector.z < 1;
+
+      button.style.left = `${x}px`;
+      button.style.top = `${y}px`;
+      button.classList.toggle("hidden", !isVisible);
+    });
+
+    this.updateHotspotState();
+  }
+
+  getOrCreateHotspot(step, index) {
+    if (this.hotspotButtons.has(step.key)) {
+      return this.hotspotButtons.get(step.key);
+    }
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "hotspot-btn";
+    button.textContent = step.label;
+    button.addEventListener("click", () => this.showGuidedPart(index));
+    this.hotspotLayer.appendChild(button);
+    this.hotspotButtons.set(step.key, button);
+    return button;
+  }
+
+  clearHotspots() {
+    this.hotspotButtons.forEach((button) => button.remove());
+    this.hotspotButtons.clear();
+  }
+
+  showGuidedPart(index) {
+    const steps = GUIDED_LEARNING.lungs;
+    const step = steps[index];
+    const data = ANATOMY_DATA.lungs[step.key];
+    if (!data) return;
+
+    this.currentTourIndex = index;
+    this.activePartKey = step.key;
+    this.show(data.name, data.description, data.whyItMatters, {
+      index,
+      total: steps.length
+    });
+    this.updateHotspotState();
+    document.getElementById("hint-text").textContent = `Learning lungs: ${data.name}`;
+  }
+
+  stepTour(direction) {
+    if (!this.shouldUseGuidedLearning()) return;
+
+    const steps = GUIDED_LEARNING.lungs;
+    const nextIndex = (this.currentTourIndex + direction + steps.length) % steps.length;
+    this.showGuidedPart(nextIndex);
+  }
+
+  startGuidedLearning() {
+    if (!this.shouldUseGuidedLearning()) return;
+    this.showGuidedPart(this.currentTourIndex);
+  }
+
+  updateHotspotState() {
+    this.hotspotButtons.forEach((button, key) => {
+      button.classList.toggle("active", key === this.activePartKey);
+    });
+  }
 
   formatName(rawName) {
     return rawName.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());

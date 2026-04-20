@@ -40,31 +40,38 @@ export const ANATOMY_DATA = {
   lungs: {
     left_lung: {
       name: "Left Lung",
-      description: "Has two lobes (upper and lower). Slightly smaller than the right lung to accommodate the heart."
+      description: "Has two lobes and sits slightly smaller to make room for the heart.",
+      whyItMatters: "Each breath fills this lung with oxygen-rich air that will pass into the bloodstream."
     },
     right_lung: {
       name: "Right Lung",
-      description: "Has three lobes (upper, middle, lower). Larger than the left lung."
+      description: "Has three lobes and is usually a little larger than the left lung.",
+      whyItMatters: "Its larger volume helps maximize how much oxygen you can take in with each breath."
     },
     trachea: {
       name: "Trachea",
-      description: "The windpipe. A tube about 12cm long that connects the throat to the bronchi, carrying air in and out."
+      description: "The windpipe, a sturdy tube that carries air from the throat down into the chest.",
+      whyItMatters: "Its cartilage rings stop the airway from collapsing while you breathe."
     },
     bronchi: {
       name: "Bronchi",
-      description: "Two main branches from the trachea, one entering each lung. They divide further into bronchioles."
+      description: "Two main branches that split from the trachea, one entering each lung before dividing again.",
+      whyItMatters: "They act like the main roadways that distribute air to smaller and smaller passages."
     },
     diaphragm: {
       name: "Diaphragm",
-      description: "The dome-shaped muscle below the lungs. When it contracts, it pulls air into the lungs."
+      description: "The dome-shaped muscle below the lungs that moves downward when you inhale.",
+      whyItMatters: "It is the main muscle of breathing and creates the suction that pulls air into the lungs."
     },
     pleura: {
       name: "Pleura",
-      description: "Two-layered membrane surrounding each lung. Reduces friction during breathing."
+      description: "A thin, double-layered membrane that wraps the lungs and lines the chest wall.",
+      whyItMatters: "Its lubricated layers let the lungs glide smoothly as the chest expands and contracts."
     },
     alveoli: {
       name: "Alveoli",
-      description: "Tiny air sacs at the end of bronchioles where oxygen enters the blood and CO2 is removed."
+      description: "Tiny air sacs at the ends of the smallest airways where gases are exchanged.",
+      whyItMatters: "This is where oxygen enters the blood and carbon dioxide leaves the body."
     }
   },
   brain: {
@@ -105,4 +112,44 @@ export const ANATOMY_DATA = {
       description: "Critical for forming new memories and spatial navigation. First affected in Alzheimer's."
     }
   }
+};
+
+export const GUIDED_LEARNING = {
+  lungs: [
+    {
+      key: "trachea",
+      label: "Trachea",
+      anchor: { x: 0, y: 0.47, z: 0.16 }
+    },
+    {
+      key: "bronchi",
+      label: "Bronchi",
+      anchor: { x: 0.02, y: 0.21, z: 0.18 }
+    },
+    {
+      key: "left_lung",
+      label: "Left Lung",
+      anchor: { x: -0.28, y: 0.08, z: 0.18 }
+    },
+    {
+      key: "right_lung",
+      label: "Right Lung",
+      anchor: { x: 0.28, y: 0.08, z: 0.18 }
+    },
+    {
+      key: "pleura",
+      label: "Pleura",
+      anchor: { x: 0.34, y: -0.02, z: 0.28 }
+    },
+    {
+      key: "alveoli",
+      label: "Alveoli",
+      anchor: { x: -0.12, y: -0.1, z: 0.24 }
+    },
+    {
+      key: "diaphragm",
+      label: "Diaphragm",
+      anchor: { x: 0, y: -0.4, z: 0.12 }
+    }
+  ]
 };
