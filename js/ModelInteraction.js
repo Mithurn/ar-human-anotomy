@@ -8,8 +8,8 @@ export class ModelInteraction {
     this.lastMouseX = 0;
     this.lastPinchDist = 0;
     this.touchStartTime = 0;
-    this.minScale = 0.02;
-    this.maxScale = 0.8;
+    this.minScale = 0.008;
+    this.maxScale = 2.4;
 
     this.attachListeners();
   }
@@ -58,7 +58,7 @@ export class ModelInteraction {
       const model = this.state.currentModel;
       const nextScale = Math.max(
         this.minScale,
-        Math.min(this.maxScale, model.scale.x + delta * 0.001)
+        Math.min(this.maxScale, model.scale.x + delta * 0.0025)
       );
 
       model.scale.setScalar(nextScale);
@@ -95,7 +95,7 @@ export class ModelInteraction {
     const model = this.state.currentModel;
     const nextScale = Math.max(
       this.minScale,
-      Math.min(this.maxScale, model.scale.x - event.deltaY * 0.0006)
+      Math.min(this.maxScale, model.scale.x - event.deltaY * 0.0015)
     );
     model.scale.setScalar(nextScale);
   }

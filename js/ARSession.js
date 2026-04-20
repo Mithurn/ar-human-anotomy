@@ -115,7 +115,7 @@ export class ARSession {
 
     this.modelLoader.place({ x: 0, y: 0, z: -1.2, copy(vector) { this.x = vector.x; this.y = vector.y; this.z = vector.z; } }, () => {
       if (this.state.currentModel) {
-        this.state.currentModel.position.set(0, 0, -1.2);
+        this.state.currentModel.position.set(0, -0.12, -1.45);
       }
       document.getElementById("hint-text").textContent = "Rotate, zoom, and tap blue points to explore";
       document.getElementById("ar-status").textContent = "Preview mode - no surface detection";

@@ -253,7 +253,12 @@ button {
 
 #launch-ar-btn {
   max-width: 320px;
+  margin: 0 auto 0.85rem;
+  padding: 0.95rem 1rem;
+  font-size: 0.92rem;
   pointer-events: all;
+  position: relative;
+  z-index: 3;
 }
 
 #hotspot-layer {
@@ -264,8 +269,8 @@ button {
 
 .hotspot-btn {
   position: absolute;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   transform: translate(-50%, -50%);
   border: none;
   border-radius: 999px;
@@ -306,18 +311,21 @@ button {
 
 #label-popup {
   position: absolute;
-  bottom: 56px;
+  bottom: 88px;
   left: 1rem;
   right: 1rem;
-  background: rgba(10, 10, 20, 0.85);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 229, 255, 0.3);
-  border-radius: var(--radius);
-  padding: 1rem 1rem 0.9rem 1.1rem;
+  background:
+    linear-gradient(180deg, rgba(14, 18, 34, 0.94), rgba(8, 10, 20, 0.94));
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(103, 215, 255, 0.28);
+  border-radius: 18px;
+  padding: 1rem 1rem 1rem 1rem;
   pointer-events: all;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 229, 255, 0.1);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
   animation: slideUp 0.25s ease;
-  max-height: 28vh;
+  max-height: 31vh;
   overflow-y: auto;
 }
 
@@ -336,48 +344,52 @@ button {
 #label-close {
   position: absolute;
   top: 10px;
-  right: 12px;
-  background: none;
-  border: none;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
-  padding: 4px;
+  padding: 0;
 }
 
 #label-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 6px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #f5fbff;
+  margin-bottom: 0.45rem;
+  letter-spacing: -0.02em;
 }
 
 #label-kicker {
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(185, 235, 255, 0.65);
-  margin-bottom: 0.55rem;
+  color: rgba(121, 219, 255, 0.78);
+  margin-bottom: 0.65rem;
 }
 
 #label-desc {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.45;
+  font-size: 1rem;
+  color: rgba(234, 243, 255, 0.84);
+  line-height: 1.5;
   margin-right: 1rem;
 }
 
 #label-why {
-  margin-top: 0.8rem;
-  font-size: 0.78rem;
-  color: rgba(192, 241, 255, 0.9);
+  margin-top: 0.9rem;
+  font-size: 0.88rem;
+  color: rgba(187, 235, 255, 0.94);
   line-height: 1.45;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.85rem 0 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #label-tour {
-  margin-top: 0.75rem;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -385,8 +397,8 @@ button {
 }
 
 #label-progress {
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.58);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -399,10 +411,10 @@ button {
 .tour-btn {
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   color: #fff;
-  padding: 0.42rem 0.8rem;
-  font-size: 0.78rem;
+  padding: 0.48rem 0.92rem;
+  font-size: 0.8rem;
   cursor: pointer;
 }
 
@@ -413,9 +425,13 @@ button {
 }
 
 #ar-bottombar {
-  padding: 0.65rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.4rem 1rem 1rem;
   text-align: center;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  pointer-events: all;
 }
 
 #ar-status {
@@ -427,13 +443,26 @@ button {
   #label-popup {
     left: 0.75rem;
     right: 0.75rem;
-    bottom: 52px;
-    max-height: 32vh;
+    bottom: 86px;
+    max-height: 35vh;
+    padding: 0.95rem 0.95rem 1rem 0.95rem;
   }
 
   .hotspot-btn {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
+  }
+
+  #label-name {
+    font-size: 1.2rem;
+  }
+
+  #label-desc {
+    font-size: 0.95rem;
+  }
+
+  #label-why {
+    font-size: 0.84rem;
   }
 
   #ar-topbar {
