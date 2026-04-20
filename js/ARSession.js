@@ -1,0 +1,110 @@
+import { ARButton } from "three/addons/webxr/ARButton.js";
+
+export class ARSession {
+  constructor(renderer, state, reticle, modelLoader, labelSystem) {
+    this.renderer = renderer;
+    this.state = state;
+    this.reticle = reticle;
+    this.modelLoader = modelLoader;
+    this.labelSystem = labelSystem;
+    this.hitTestSource = null;
+    this.hitTestSourceRequested = false;
+    this.controller = null;
+    this.arButton = null;
+  }
+
+  async start() {
+    const arSupported = navigator.xr && await navigator.xr.isSessionSupported?.("immersive-ar");
+
+    if (!arSupported) {
+      document.getElementById("ar-status").textContent = "WebXR unavailable on this device/browser.";
+      document.getElementById("hint-text").textContent = "Preview mode active";
+      this.placePreviewModel();
+      return;
+    }
+
+    this.controller = this.renderer.xr.getController(0);
+    this.controller.addEventListener("select", () => this.onSelect());
+
+    if (!this.arButton) {
+      this.arButton = ARButton.createButton(this.renderer, {
+        requiredFeatures: ["hit-test"],
+        optionalFeatures: ["dom-overlay"],
+        domOverlay: { root: document.getElementById("ar-overlay") }
+      });
+      this.arButton.style.display = "none";
+      document.body.appendChild(this.arButton);
+    }
+
+    document.getElementById("ar-status").textContent = "Searching for surface...";
+    this.arButton.click();
+  }
+
+  stop() {
+    if (this.state.xrSession) {
+      this.state.xrSession.end();
+      this.state.xrSession = null;
+    }
+
+    this.hitTestSource = null;
+    this.hitTestSourceRequested = false;
+    this.reticle.hide();
+  }
+
+  onSelect() {
+    if (!this.state.modelPlaced && this.reticle.visible) {
+      const position = this.reticle.getPosition();
+      this.modelLoader.place(position, () => {
+        this.reticle.hide();
+        document.getElementById("hint-text").textContent = "Tap parts to explore";
+        document.getElementById("ar-status").textContent = "Model placed - tap any part";
+      });
+      return;
+    }
+
+    if (this.state.modelPlaced) {
+      this.labelSystem.onTap();
+    }
+  }
+
+  onFrame(frame) {
+    const session = this.renderer.xr.getSession();
+
+    if (!this.hitTestSourceRequested && session) {
+      session.requestReferenceSpace("viewer").then((referenceSpace) => {
+        session.requestHitTestSource({ space: referenceSpace }).then((source) => {
+          this.hitTestSource = source;
+        });
+      });
+      this.hitTestSourceRequested = true;
+      this.state.xrSession = session;
+    }
+
+    if (this.hitTestSource && !this.state.modelPlaced) {
+      const referenceSpace = this.renderer.xr.getReferenceSpace();
+      const hitTestResults = frame.getHitTestResults(this.hitTestSource);
+
+      if (hitTestResults.length > 0) {
+        const hit = hitTestResults[0];
+        const pose = hit.getPose(referenceSpace);
+        this.reticle.update(pose.transform.matrix);
+        document.getElementById("ar-status").textContent = "Surface found - tap to place";
+      } else {
+        this.reticle.hide();
+        document.getElementById("ar-status").textContent = "Searching for surface...";
+      }
+    }
+  }
+
+  placePreviewModel() {
+    if (this.state.modelPlaced) return;
+
+    this.modelLoader.place({ x: 0, y: 0, z: -1.2, copy(vector) { this.x = vector.x; this.y = vector.y; this.z = vector.z; } }, () => {
+      if (this.state.currentModel) {
+        this.state.currentModel.position.set(0, 0, -1.2);
+      }
+      document.getElementById("hint-text").textContent = "Drag to rotate, pinch to zoom";
+      document.getElementById("ar-status").textContent = "Preview mode - no surface detection";
+    });
+  }
+}

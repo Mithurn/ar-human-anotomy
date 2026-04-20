@@ -1,0 +1,16 @@
+{
+  "name": "AR Anatomy Visualizer",
+  "short_name": "AR Anatomy",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "background_color": "#0a0a0f",
+  "theme_color": "#00e5ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
