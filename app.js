@@ -53,40 +53,32 @@ function onStartAR() {
   document.getElementById("selection-screen").classList.add("hidden");
   document.getElementById("ar-screen").classList.remove("hidden");
   document.getElementById("ar-title").textContent = capitalize(state.selectedOrgan);
-  document.getElementById("hint-text").textContent = "Point at a flat surface and tap to place";
-  document.getElementById("ar-status").textContent = "Starting AR session...";
-  arSession.start();
+  document.getElementById("hint-text").textContent = "Rotate, zoom, and tap blue points to explore";
+  document.getElementById("ar-status").textContent = "";
+  arSession.startObjectMode();
 }
+
+document.getElementById("enter-ar-btn").addEventListener("click", () => {
+  arSession.enterAR();
+});
 
 document.getElementById("back-btn").addEventListener("click", () => {
   arSession.stop();
   clearModel();
   document.getElementById("ar-screen").classList.add("hidden");
   document.getElementById("selection-screen").classList.remove("hidden");
-  document.getElementById("hint-text").textContent = "Point at a flat surface and tap to place";
-  document.getElementById("ar-status").textContent = "Searching for surface...";
-  document.getElementById("launch-ar-btn").classList.add("hidden");
+  document.getElementById("hint-text").textContent = "Rotate, zoom, and tap blue points to explore";
+  document.getElementById("ar-status").textContent = "";
   labelSystem.hide();
 });
 
 document.getElementById("reset-btn").addEventListener("click", () => {
   clearModel();
   reticle.show();
-  document.getElementById("hint-text").textContent = "Point at a flat surface and tap to place";
+  document.getElementById("hint-text").textContent = "Rotate, zoom, and tap blue points to explore";
   labelSystem.hide();
-
-  if (arSession.isQuickLookCapable()) {
-    arSession.start();
-    return;
-  }
-
-  document.getElementById("ar-status").textContent = navigator.xr
-    ? "Searching for surface..."
-    : "Preview mode - tap View in AR on a supported mobile device for real AR.";
-
-  if (!navigator.xr) {
-    arSession.placePreviewModel();
-  }
+  document.getElementById("ar-status").textContent = "";
+  arSession.startObjectMode();
 });
 
 window.addEventListener("resize", () => {

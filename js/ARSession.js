@@ -11,30 +11,33 @@ export class ARSession {
     this.hitTestSourceRequested = false;
     this.controller = null;
     this.arButton = null;
-    this.launchButton = document.getElementById("launch-ar-btn");
     this.quickLookAnchor = null;
   }
 
-  async start() {
+  async startObjectMode() {
+    document.getElementById("hint-text").textContent = "Rotate, zoom, and tap blue points to explore";
+    document.getElementById("ar-status").textContent = "";
+    this.placePreviewModel();
+  }
+
+  async enterAR() {
     const arSupported = navigator.xr && await navigator.xr.isSessionSupported?.("immersive-ar");
     const quickLookSupported = this.isQuickLookCapable();
 
-    this.hideLaunchAction();
-
     if (quickLookSupported) {
-      document.getElementById("ar-status").textContent = "iPhone detected. Preview is active until you open AR Quick Look.";
-      document.getElementById("hint-text").textContent = "Preview mode active";
-      this.showQuickLookAction();
-      this.placePreviewModel();
+      this.openQuickLook();
       return;
     }
 
     if (!arSupported) {
-      document.getElementById("ar-status").textContent = "WebXR unavailable on this device/browser.";
-      document.getElementById("hint-text").textContent = "Preview mode active";
-      this.placePreviewModel();
+      document.getElementById("hint-text").textContent = "AR is not available on this device/browser";
       return;
     }
+
+    if (this.state.currentModel) {
+      this.state.currentModel.visible = false;
+    }
+    this.labelSystem.hide();
 
     this.controller = this.renderer.xr.getController(0);
     this.controller.addEventListener("select", () => this.onSelect());
@@ -62,7 +65,9 @@ export class ARSession {
     this.hitTestSource = null;
     this.hitTestSourceRequested = false;
     this.reticle.hide();
-    this.hideLaunchAction();
+    if (this.state.currentModel) {
+      this.state.currentModel.visible = true;
+    }
   }
 
   onSelect() {
@@ -130,22 +135,10 @@ export class ARSession {
     return isIOSDevice && isSafariLike;
   }
 
-  showQuickLookAction() {
-    this.launchButton.classList.remove("hidden");
-    this.launchButton.textContent = "Open In AR";
-    this.launchButton.onclick = () => this.openQuickLook();
-  }
-
-  hideLaunchAction() {
-    this.launchButton.classList.add("hidden");
-    this.launchButton.onclick = null;
-  }
-
   async openQuickLook() {
     const quickLookUrl = await this.findQuickLookUrl();
     if (!quickLookUrl) {
-      document.getElementById("ar-status").textContent = "USDZ file missing. Add a matching .usdz model to enable iPhone AR.";
-      document.getElementById("hint-text").textContent = "Preview mode only until USDZ is added";
+      document.getElementById("hint-text").textContent = "USDZ file missing for this selection";
       return;
     }
 
