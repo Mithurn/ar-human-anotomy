@@ -118,7 +118,7 @@ export class ARSession {
         this.state.currentModel.position.set(0, -0.12, -1.45);
       }
       document.getElementById("hint-text").textContent = "Rotate, zoom, and tap blue points to explore";
-      document.getElementById("ar-status").textContent = "Preview mode - no surface detection";
+      document.getElementById("ar-status").textContent = "";
       this.labelSystem.startGuidedLearning();
     });
   }

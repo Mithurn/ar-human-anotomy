@@ -252,8 +252,9 @@ button {
 }
 
 #launch-ar-btn {
+  width: min(320px, calc(100% - 2rem));
   max-width: 320px;
-  margin: 0 auto 0.85rem;
+  margin: 0 auto;
   padding: 0.95rem 1rem;
   font-size: 0.92rem;
   pointer-events: all;
@@ -311,21 +312,23 @@ button {
 
 #label-popup {
   position: absolute;
-  bottom: 88px;
-  left: 1rem;
-  right: 1rem;
+  left: 50%;
+  right: auto;
+  bottom: 108px;
+  width: min(420px, calc(100% - 1.5rem));
+  transform: translateX(-50%);
   background:
-    linear-gradient(180deg, rgba(14, 18, 34, 0.94), rgba(8, 10, 20, 0.94));
+    linear-gradient(180deg, rgba(113, 221, 255, 0.95), rgba(87, 188, 255, 0.93));
   backdrop-filter: blur(18px);
-  border: 1px solid rgba(103, 215, 255, 0.28);
+  border: 1px solid rgba(185, 243, 255, 0.48);
   border-radius: 18px;
-  padding: 1rem 1rem 1rem 1rem;
+  padding: 1rem 1rem 0.95rem 1rem;
   pointer-events: all;
   box-shadow:
-    0 18px 42px rgba(0, 0, 0, 0.42),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 18px 42px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   animation: slideUp 0.25s ease;
-  max-height: 31vh;
+  max-height: 30vh;
   overflow-y: auto;
 }
 
@@ -348,9 +351,9 @@ button {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-muted);
+  background: rgba(4, 22, 34, 0.12);
+  border: 1px solid rgba(4, 22, 34, 0.12);
+  color: rgba(6, 32, 48, 0.72);
   font-size: 0.95rem;
   cursor: pointer;
   padding: 0;
@@ -359,7 +362,7 @@ button {
 #label-name {
   font-size: 1.35rem;
   font-weight: 700;
-  color: #f5fbff;
+  color: #072234;
   margin-bottom: 0.45rem;
   letter-spacing: -0.02em;
 }
@@ -368,13 +371,13 @@ button {
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(121, 219, 255, 0.78);
+  color: rgba(7, 34, 52, 0.66);
   margin-bottom: 0.65rem;
 }
 
 #label-desc {
   font-size: 1rem;
-  color: rgba(234, 243, 255, 0.84);
+  color: rgba(7, 34, 52, 0.88);
   line-height: 1.5;
   margin-right: 1rem;
 }
@@ -382,10 +385,10 @@ button {
 #label-why {
   margin-top: 0.9rem;
   font-size: 0.88rem;
-  color: rgba(187, 235, 255, 0.94);
+  color: rgba(7, 34, 52, 0.8);
   line-height: 1.45;
   padding: 0.85rem 0 0 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(7, 34, 52, 0.12);
 }
 
 #label-tour {
@@ -398,7 +401,7 @@ button {
 
 #label-progress {
   font-size: 0.74rem;
-  color: rgba(255, 255, 255, 0.58);
+  color: rgba(7, 34, 52, 0.6);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -409,10 +412,10 @@ button {
 }
 
 .tour-btn {
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(7, 34, 52, 0.12);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: rgba(7, 34, 52, 0.08);
+  color: #072234;
   padding: 0.48rem 0.92rem;
   font-size: 0.8rem;
   cursor: pointer;
@@ -420,7 +423,7 @@ button {
 
 .tour-btn:hover,
 .tour-btn:focus-visible {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(7, 34, 52, 0.14);
   outline: none;
 }
 
@@ -437,14 +440,16 @@ button {
 #ar-status {
   font-size: 0.78rem;
   color: rgba(255, 255, 255, 0.65);
+  display: none;
 }
 
 @media (max-width: 480px) {
   #label-popup {
-    left: 0.75rem;
-    right: 0.75rem;
+    left: 50%;
+    right: auto;
     bottom: 86px;
-    max-height: 35vh;
+    width: calc(100% - 1rem);
+    max-height: 33vh;
     padding: 0.95rem 0.95rem 1rem 0.95rem;
   }
 

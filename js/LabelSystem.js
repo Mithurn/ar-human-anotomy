@@ -190,7 +190,6 @@ export class LabelSystem {
       total: steps.length
     });
     this.updateHotspotState();
-    document.getElementById("hint-text").textContent = `Learning lungs: ${data.name}`;
   }
 
   stepTour(direction) {
