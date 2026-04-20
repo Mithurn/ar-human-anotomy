@@ -244,6 +244,18 @@ button {
   color: rgba(255, 255, 255, 0.8);
 }
 
+#ar-actions {
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+  pointer-events: none;
+}
+
+#launch-ar-btn {
+  max-width: 320px;
+  pointer-events: all;
+}
+
 #label-popup {
   position: absolute;
   bottom: 100px;

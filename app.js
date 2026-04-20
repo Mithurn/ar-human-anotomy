@@ -66,6 +66,7 @@ document.getElementById("back-btn").addEventListener("click", () => {
   document.getElementById("selection-screen").classList.remove("hidden");
   document.getElementById("hint-text").textContent = "Point at a flat surface and tap to place";
   document.getElementById("ar-status").textContent = "Searching for surface...";
+  document.getElementById("launch-ar-btn").classList.add("hidden");
   labelSystem.hide();
 });
 
@@ -73,10 +74,16 @@ document.getElementById("reset-btn").addEventListener("click", () => {
   clearModel();
   reticle.show();
   document.getElementById("hint-text").textContent = "Point at a flat surface and tap to place";
+  labelSystem.hide();
+
+  if (arSession.isQuickLookCapable()) {
+    arSession.start();
+    return;
+  }
+
   document.getElementById("ar-status").textContent = navigator.xr
     ? "Searching for surface..."
     : "Preview mode - tap View in AR on a supported mobile device for real AR.";
-  labelSystem.hide();
 
   if (!navigator.xr) {
     arSession.placePreviewModel();
@@ -122,9 +129,15 @@ function clearModel() {
 async function updateSupportNote() {
   const supportNote = document.getElementById("support-note");
   const arSupported = navigator.xr && await navigator.xr.isSessionSupported?.("immersive-ar");
+  const quickLookReady = /iPhone|iPad|iPod/i.test(navigator.userAgent || "");
 
   if (arSupported) {
     supportNote.textContent = "Immersive AR detected. This should launch on a supported mobile browser over HTTPS or localhost.";
+    return;
+  }
+
+  if (quickLookReady) {
+    supportNote.textContent = "iPhone detected. Browser preview works now, and native AR Quick Look will work after matching USDZ files are added.";
     return;
   }
 

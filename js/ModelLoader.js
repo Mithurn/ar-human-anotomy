@@ -19,6 +19,14 @@ export class ModelLoader {
     ];
   }
 
+  getQuickLookCandidates() {
+    const { selectedOrgan, selectedAge, selectedGender } = this.state;
+    return [
+      `models/${selectedOrgan}/${selectedOrgan}.usdz`,
+      `models/${selectedOrgan}/${selectedOrgan}_${selectedAge}_${selectedGender}.usdz`
+    ];
+  }
+
   place(position, onPlaced) {
     document.getElementById("ar-status").textContent = "Loading model...";
     this.loadFirstAvailable(this.getModelCandidates(), position, onPlaced);
