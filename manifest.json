@@ -1,10 +1,10 @@
 {
-  "name": "AR Anatomy Visualizer",
-  "short_name": "AR Anatomy",
+  "name": "AR Anatomy Demo",
+  "short_name": "Anatomy AR",
   "start_url": "./index.html",
   "display": "fullscreen",
   "background_color": "#0a0a0f",
-  "theme_color": "#00e5ff",
+  "theme_color": "#0d141f",
   "orientation": "portrait",
   "icons": [
     {
