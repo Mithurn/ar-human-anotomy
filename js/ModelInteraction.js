@@ -3,7 +3,9 @@ export class ModelInteraction {
     this.state = state;
     this.renderer = renderer;
     this.isDragging = false;
+    this.isMouseDragging = false;
     this.lastX = 0;
+    this.lastMouseX = 0;
     this.lastPinchDist = 0;
     this.touchStartTime = 0;
     this.minScale = 0.02;
@@ -17,6 +19,10 @@ export class ModelInteraction {
     canvas.addEventListener("touchstart", (event) => this.onTouchStart(event), { passive: false });
     canvas.addEventListener("touchmove", (event) => this.onTouchMove(event), { passive: false });
     canvas.addEventListener("touchend", (event) => this.onTouchEnd(event));
+    canvas.addEventListener("mousedown", (event) => this.onMouseDown(event));
+    window.addEventListener("mousemove", (event) => this.onMouseMove(event));
+    window.addEventListener("mouseup", () => this.onMouseUp());
+    canvas.addEventListener("wheel", (event) => this.onWheel(event), { passive: false });
   }
 
   onTouchStart(event) {
@@ -62,6 +68,36 @@ export class ModelInteraction {
 
   onTouchEnd() {
     this.isDragging = false;
+  }
+
+  onMouseDown(event) {
+    if (!this.state.modelPlaced) return;
+    this.isMouseDragging = true;
+    this.lastMouseX = event.clientX;
+  }
+
+  onMouseMove(event) {
+    if (!this.isMouseDragging || !this.state.currentModel) return;
+
+    const dx = event.clientX - this.lastMouseX;
+    this.state.currentModel.rotation.y += dx * 0.01;
+    this.lastMouseX = event.clientX;
+  }
+
+  onMouseUp() {
+    this.isMouseDragging = false;
+  }
+
+  onWheel(event) {
+    if (!this.state.currentModel) return;
+
+    event.preventDefault();
+    const model = this.state.currentModel;
+    const nextScale = Math.max(
+      this.minScale,
+      Math.min(this.maxScale, model.scale.x - event.deltaY * 0.0006)
+    );
+    model.scale.setScalar(nextScale);
   }
 
   wasTap() {

@@ -1,8 +1,20 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-const SCALE_MAP = { adult: 1.0, child: 0.7 };
-const BASE_SIZE = { heart: 0.12, lungs: 0.28, brain: 0.15 };
+const SIZE_PROFILE = {
+  heart: {
+    adult: { male: 0.12, female: 0.11 },
+    child: { male: 0.084, female: 0.077 }
+  },
+  lungs: {
+    adult: { male: 0.28, female: 0.26 },
+    child: { male: 0.196, female: 0.182 }
+  },
+  brain: {
+    adult: { male: 0.155, female: 0.145 },
+    child: { male: 0.109, female: 0.102 }
+  }
+};
 
 export class ModelLoader {
   constructor(scene, state) {
@@ -14,16 +26,16 @@ export class ModelLoader {
   getModelCandidates() {
     const { selectedOrgan, selectedAge, selectedGender } = this.state;
     return [
-      `models/${selectedOrgan}/${selectedOrgan}.glb`,
-      `models/${selectedOrgan}/${selectedOrgan}_${selectedAge}_${selectedGender}.glb`
+      `models/${selectedOrgan}/${selectedOrgan}_${selectedAge}_${selectedGender}.glb`,
+      `models/${selectedOrgan}/${selectedOrgan}.glb`
     ];
   }
 
   getQuickLookCandidates() {
     const { selectedOrgan, selectedAge, selectedGender } = this.state;
     return [
-      `models/${selectedOrgan}/${selectedOrgan}.usdz`,
-      `models/${selectedOrgan}/${selectedOrgan}_${selectedAge}_${selectedGender}.usdz`
+      `models/${selectedOrgan}/${selectedOrgan}_${selectedAge}_${selectedGender}.usdz`,
+      `models/${selectedOrgan}/${selectedOrgan}.usdz`
     ];
   }
 
@@ -62,9 +74,7 @@ export class ModelLoader {
   }
 
   prepareModel(model, position) {
-    const ageScale = SCALE_MAP[this.state.selectedAge];
-    const baseSize = BASE_SIZE[this.state.selectedOrgan];
-    const targetSize = baseSize * ageScale;
+    const targetSize = this.getTargetSize();
 
     this.fitModelToSize(model, targetSize);
     this.groundModel(model);
@@ -81,6 +91,11 @@ export class ModelLoader {
     this.scene.add(model);
     this.state.currentModel = model;
     this.state.modelPlaced = true;
+  }
+
+  getTargetSize() {
+    const { selectedOrgan, selectedAge, selectedGender } = this.state;
+    return SIZE_PROFILE[selectedOrgan]?.[selectedAge]?.[selectedGender] ?? 0.15;
   }
 
   fitModelToSize(model, targetSize) {

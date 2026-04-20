@@ -14,8 +14,9 @@ export class LabelSystem {
     this.activePartKey = null;
     this.currentTourIndex = 0;
     this.tmpVector = new THREE.Vector3();
-    this.tmpSize = new THREE.Vector3();
+    this.tmpBox = new THREE.Box3();
     this.tmpCenter = new THREE.Vector3();
+    this.tmpSize = new THREE.Vector3();
 
     document.getElementById("ar-canvas").addEventListener("touchend", (event) => {
       if (!this.state.modelPlaced || event.changedTouches.length === 0) return;
@@ -129,12 +130,13 @@ export class LabelSystem {
 
   renderGuidedHotspots() {
     const steps = GUIDED_LEARNING.lungs;
-    const box = new THREE.Box3().setFromObject(this.state.currentModel);
-    box.getSize(this.tmpSize);
-    box.getCenter(this.tmpCenter);
+    this.tmpBox.setFromObject(this.state.currentModel);
+    this.tmpBox.getCenter(this.tmpCenter);
+    this.tmpBox.getSize(this.tmpSize);
 
     steps.forEach((step, index) => {
       const button = this.getOrCreateHotspot(step, index);
+
       this.tmpVector.set(
         this.tmpCenter.x + (this.tmpSize.x * step.anchor.x),
         this.tmpCenter.y + (this.tmpSize.y * step.anchor.y),
@@ -142,13 +144,13 @@ export class LabelSystem {
       );
 
       this.tmpVector.project(this.camera);
+      const visible = this.tmpVector.z > -1 && this.tmpVector.z < 1;
       const x = ((this.tmpVector.x + 1) * 0.5) * window.innerWidth;
       const y = ((1 - this.tmpVector.y) * 0.5) * window.innerHeight;
-      const isVisible = this.tmpVector.z > -1 && this.tmpVector.z < 1;
 
       button.style.left = `${x}px`;
       button.style.top = `${y}px`;
-      button.classList.toggle("hidden", !isVisible);
+      button.classList.toggle("hidden", !visible);
     });
 
     this.updateHotspotState();
@@ -162,7 +164,8 @@ export class LabelSystem {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "hotspot-btn";
-    button.textContent = step.label;
+    button.dataset.label = step.label;
+    button.setAttribute("aria-label", step.label);
     button.addEventListener("click", () => this.showGuidedPart(index));
     this.hotspotLayer.appendChild(button);
     this.hotspotButtons.set(step.key, button);

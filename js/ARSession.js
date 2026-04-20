@@ -117,7 +117,7 @@ export class ARSession {
       if (this.state.currentModel) {
         this.state.currentModel.position.set(0, 0, -1.2);
       }
-      document.getElementById("hint-text").textContent = "Drag to rotate, pinch to zoom";
+      document.getElementById("hint-text").textContent = "Drag to rotate, pinch or scroll to zoom, tap blue points to learn";
       document.getElementById("ar-status").textContent = "Preview mode - no surface detection";
       this.labelSystem.startGuidedLearning();
     });
@@ -159,7 +159,7 @@ export class ARSession {
       document.body.appendChild(this.quickLookAnchor);
     }
 
-    this.quickLookAnchor.href = quickLookUrl;
+    this.quickLookAnchor.href = `${quickLookUrl}#allowsContentScaling=0`;
     this.quickLookAnchor.click();
   }
 
