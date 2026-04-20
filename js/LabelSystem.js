@@ -84,7 +84,7 @@ export class LabelSystem {
 
   show(name, desc, whyItMatters = "", tourState = null) {
     document.getElementById("label-kicker").textContent = this.shouldUseGuidedLearning()
-      ? "Lungs Learning Mode"
+      ? "Selected Part"
       : "Anatomy Detail";
     document.getElementById("label-name").textContent = name;
     document.getElementById("label-desc").textContent = desc;
@@ -203,7 +203,9 @@ export class LabelSystem {
 
   startGuidedLearning() {
     if (!this.shouldUseGuidedLearning()) return;
-    this.showGuidedPart(this.currentTourIndex);
+    this.activePartKey = null;
+    this.updateHotspotState();
+    this.hide();
   }
 
   updateHotspotState() {

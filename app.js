@@ -52,8 +52,7 @@ updateSupportNote();
 function onStartAR() {
   document.getElementById("selection-screen").classList.add("hidden");
   document.getElementById("ar-screen").classList.remove("hidden");
-  document.getElementById("ar-title").textContent =
-    `${capitalize(state.selectedOrgan)} - ${capitalize(state.selectedAge)} ${capitalize(state.selectedGender)}`;
+  document.getElementById("ar-title").textContent = capitalize(state.selectedOrgan);
   document.getElementById("hint-text").textContent = "Point at a flat surface and tap to place";
   document.getElementById("ar-status").textContent = "Starting AR session...";
   arSession.start();
