@@ -248,6 +248,12 @@ button {
   box-shadow: 0 16px 34px rgba(59, 195, 255, 0.2);
 }
 
+.cta-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
 .ar-slot-btn {
   padding: 0.95rem 1.4rem;
   position: absolute;

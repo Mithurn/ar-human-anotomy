@@ -4,20 +4,33 @@ const MODEL_CONFIG = {
   heart: {
     title: "Heart",
     description:
-      "Inspect a realistic cardiac model, then launch it into your room in AR for scale and placement.",
-    scale: "1 1 1"
+      "Inspect a realistic cardiac model, then launch it into your room in AR for scale and placement."
   },
   lungs: {
     title: "Lungs",
     description:
-      "Study the respiratory system with guided hotspots that explain the major structures and their roles.",
-    scale: "1 1 1"
+      "Study the respiratory system with guided hotspots that explain the major structures and their roles."
   },
   brain: {
     title: "Brain",
     description:
-      "Explore a detailed brain model and use AR to compare its size and shape against the real world.",
-    scale: "1 1 1"
+      "Explore a detailed brain model and use AR to compare its size and shape against the real world."
+  }
+};
+
+const PROFILE_SCALE = {
+  age: {
+    adult: 1,
+    child: 0.78
+  },
+  gender: {
+    male: 1,
+    female: 0.94
+  },
+  organ: {
+    heart: 1,
+    lungs: 1.02,
+    brain: 0.96
   }
 };
 
@@ -95,13 +108,13 @@ document.querySelectorAll("[data-gender]").forEach((button) => {
 });
 
 arLaunchButton.addEventListener("click", () => {
-  if (typeof viewer.activateAR === "function") {
+  if (viewer.canActivateAR && typeof viewer.activateAR === "function") {
     viewer.activateAR();
     return;
   }
 
   supportNote.textContent =
-    "AR launch is not available in this browser. Open the page on a supported phone over HTTPS.";
+    "AR is not available on this device or browser. Stay in study mode or open this on your demo iPhone in Safari.";
 });
 
 viewer.addEventListener("error", () => {
@@ -109,17 +122,23 @@ viewer.addEventListener("error", () => {
     "The selected model could not be loaded. Check that the matching GLB and USDZ files exist.";
 });
 
+viewer.addEventListener("load", () => {
+  updateArAvailability();
+});
+
 updateViewer();
 updateSupportMessage();
+updateArAvailability();
 
 function updateViewer() {
   const config = MODEL_CONFIG[state.organ];
   const glbPath = getGlbPath();
   const usdzPath = getUsdzPath();
+  const scale = getPreviewScale();
 
   viewer.src = glbPath;
   viewer.setAttribute("ios-src", usdzPath);
-  viewer.setAttribute("scale", config.scale);
+  viewer.setAttribute("scale", `${scale} ${scale} ${scale}`);
   viewerTitle.textContent = config.title;
   modelName.textContent = config.title;
   modelProfile.textContent = `${capitalize(state.age)} ${capitalize(state.gender)}`;
@@ -128,6 +147,7 @@ function updateViewer() {
   renderHotspots();
   renderPartList();
   selectDefaultPart();
+  updateArAvailability();
 }
 
 function renderHotspots() {
@@ -219,22 +239,35 @@ function syncPartListState() {
 function updateSupportMessage() {
   const ua = navigator.userAgent || "";
   const isIOS = /iPhone|iPad|iPod/i.test(ua);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
   const isAndroid = /Android/i.test(ua);
+
+  if (isIOS && isSafari) {
+    supportNote.textContent =
+      "Demo mode is optimized for iPhone Safari. AR opens in Quick Look with the selected profile-specific USDZ model.";
+    return;
+  }
 
   if (isIOS) {
     supportNote.textContent =
-      "iPhone detected. AR opens in Quick Look with the selected profile-specific USDZ model.";
+      "iPhone detected, but this demo is locked to Safari for the most reliable Quick Look AR launch.";
     return;
   }
 
   if (isAndroid) {
     supportNote.textContent =
-      "Android detected. AR should launch through WebXR or Scene Viewer on supported devices.";
+      "Android is limited to study mode in this demo build. Use the demo iPhone in Safari for AR.";
     return;
   }
 
   supportNote.textContent =
-    "Desktop is in study mode. Use the highlighted points to learn the anatomy, then switch to a phone for AR.";
+    "Desktop is in study mode. Use the highlighted points to learn the anatomy, then switch to the demo iPhone for AR.";
+}
+
+function updateArAvailability() {
+  const canLaunchAr = Boolean(viewer.canActivateAR);
+  arLaunchButton.disabled = !canLaunchAr;
+  arLaunchButton.setAttribute("aria-disabled", String(!canLaunchAr));
 }
 
 function getGlbPath() {
@@ -250,6 +283,13 @@ function syncSelectionState(key, value) {
   document.querySelectorAll(selector).forEach((button) => {
     button.classList.toggle("is-active", button.dataset[key] === value);
   });
+}
+
+function getPreviewScale() {
+  const organScale = PROFILE_SCALE.organ[state.organ] ?? 1;
+  const ageScale = PROFILE_SCALE.age[state.age] ?? 1;
+  const genderScale = PROFILE_SCALE.gender[state.gender] ?? 1;
+  return (organScale * ageScale * genderScale).toFixed(3);
 }
 
 function capitalize(value) {
