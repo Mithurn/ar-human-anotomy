@@ -273,12 +273,38 @@ p {
   background: linear-gradient(90deg, var(--accent), var(--warm));
 }
 
-.step-panel {
-  min-height: 360px;
+.step-viewport {
+  overflow: hidden;
+  margin-bottom: 1.1rem;
 }
 
-.step-content {
-  margin-bottom: 1.1rem;
+.step-track {
+  display: flex;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.step-page {
+  flex: 0 0 100%;
+  padding-right: 0.1rem;
+}
+
+.step-copy {
+  margin-bottom: 1rem;
+}
+
+.step-copy h3 {
+  margin: 0 0 0.35rem;
+  letter-spacing: -0.03em;
+}
+
+.step-help {
+  margin: 0;
+  color: var(--muted);
+}
+
+.step-panel {
+  min-height: 320px;
 }
 
 .option-stack,

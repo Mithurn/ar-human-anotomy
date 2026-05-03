@@ -54,10 +54,32 @@
           <span id="progress-fill"></span>
         </div>
 
-        <div id="step-content" class="step-content">
-          <div id="organ-step" class="step-panel"></div>
-          <div id="age-step" class="step-panel" hidden></div>
-          <div id="gender-step" class="step-panel" hidden></div>
+        <div class="step-viewport">
+          <div id="step-track" class="step-track">
+            <article class="step-page">
+              <div class="step-copy">
+                <h3>Pick the organ to explore</h3>
+                <p class="step-help">Choose one model to continue to the next page.</p>
+              </div>
+              <div id="organ-step" class="step-panel"></div>
+            </article>
+
+            <article class="step-page">
+              <div class="step-copy">
+                <h3>Select an age group</h3>
+                <p class="step-help">This is optional. You can skip and keep the default adult scale.</p>
+              </div>
+              <div id="age-step" class="step-panel"></div>
+            </article>
+
+            <article class="step-page">
+              <div class="step-copy">
+                <h3>Select a gender</h3>
+                <p class="step-help">This is optional. You can skip and keep the default male scale.</p>
+              </div>
+              <div id="gender-step" class="step-panel"></div>
+            </article>
+          </div>
         </div>
 
         <div class="step-actions">

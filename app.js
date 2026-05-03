@@ -195,6 +195,7 @@ const restartButton = document.getElementById("restart-btn");
 const stepEyebrow = document.getElementById("step-eyebrow");
 const stepTitle = document.getElementById("step-title");
 const progressFill = document.getElementById("progress-fill");
+const stepTrack = document.getElementById("step-track");
 const organStep = document.getElementById("organ-step");
 const ageStep = document.getElementById("age-step");
 const genderStep = document.getElementById("gender-step");
@@ -370,10 +371,7 @@ function renderStep() {
   const stepIndex = STEP_ORDER.indexOf(state.step);
   stepEyebrow.textContent = `Step ${stepIndex + 1} of ${STEP_ORDER.length}`;
   progressFill.style.width = `${((stepIndex + 1) / STEP_ORDER.length) * 100}%`;
-
-  organStep.hidden = state.step !== "organ";
-  ageStep.hidden = state.step !== "age";
-  genderStep.hidden = state.step !== "gender";
+  stepTrack.style.transform = `translateX(-${stepIndex * 100}%)`;
 
   backStepButton.hidden = stepIndex < 1;
   skipStepButton.hidden = state.step === "organ";
