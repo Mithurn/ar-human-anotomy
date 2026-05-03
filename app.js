@@ -224,8 +224,9 @@ function bootstrap() {
 function attachEvents() {
   getStartedButton.addEventListener("click", () => {
     state.step = "organ";
-    showScreen("setup");
+    revealSetup();
     renderStep();
+    scrollToSection(setupScreen);
   });
 
   backStepButton.addEventListener("click", handleBackStep);
@@ -234,8 +235,9 @@ function attachEvents() {
 
   changeSelectionButton.addEventListener("click", () => {
     state.step = "organ";
-    showScreen("setup");
+    revealSetup();
     renderStep();
+    scrollToSection(setupScreen);
   });
 
   restartButton.addEventListener("click", () => {
@@ -245,6 +247,7 @@ function attachEvents() {
     state.selectedPart = null;
     state.step = "landing";
     showScreen("landing");
+    scrollToSection(landingScreen);
   });
 
   arLaunchButton.addEventListener("click", () => {
@@ -321,8 +324,8 @@ function renderSetupOptions() {
 function handleBackStep() {
   const index = STEP_ORDER.indexOf(state.step);
   if (index <= 0) {
-    showScreen("landing");
     state.step = "landing";
+    scrollToSection(landingScreen);
     return;
   }
 
@@ -365,6 +368,7 @@ function enterViewer() {
 
   showScreen("viewer");
   updateViewer();
+  scrollToSection(viewerScreen);
 }
 
 function renderStep() {
@@ -503,13 +507,43 @@ function syncPartListState() {
 }
 
 function showScreen(screen) {
-  landingScreen.hidden = screen !== "landing";
-  setupScreen.hidden = screen !== "setup";
-  viewerScreen.hidden = screen !== "viewer";
+  landingScreen.hidden = false;
+  landingScreen.classList.add("screen-active");
 
-  landingScreen.classList.toggle("screen-active", screen === "landing");
-  setupScreen.classList.toggle("screen-active", screen === "setup");
-  viewerScreen.classList.toggle("screen-active", screen === "viewer");
+  if (screen === "landing") {
+    setupScreen.hidden = true;
+    setupScreen.classList.remove("screen-active");
+    viewerScreen.hidden = true;
+    viewerScreen.classList.remove("screen-active");
+    return;
+  }
+
+  if (screen === "viewer") {
+    setupScreen.hidden = false;
+    setupScreen.classList.add("screen-active");
+    viewerScreen.hidden = false;
+    viewerScreen.classList.add("screen-active");
+    return;
+  }
+
+  setupScreen.hidden = false;
+  setupScreen.classList.add("screen-active");
+  viewerScreen.hidden = true;
+  viewerScreen.classList.remove("screen-active");
+}
+
+function revealSetup() {
+  setupScreen.hidden = false;
+  setupScreen.classList.add("screen-active");
+  viewerScreen.hidden = true;
+  viewerScreen.classList.remove("screen-active");
+}
+
+function scrollToSection(element) {
+  element.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 }
 
 function updateSupportMessage() {
