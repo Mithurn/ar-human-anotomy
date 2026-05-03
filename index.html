@@ -9,73 +9,91 @@
   <title>AR Anatomy Demo</title>
 </head>
 <body>
-  <div class="page-shell">
-    <header class="hero">
-      <p class="eyebrow">Phone-Ready Anatomy AR</p>
-      <h1>Place realistic organ models in your space.</h1>
-      <p class="hero-copy">
-        Choose an anatomy model, inspect it in 3D, then launch the demo-safe AR experience in iPhone Safari.
-      </p>
-    </header>
-
-    <main class="layout">
-      <section class="control-panel" aria-labelledby="selection-title">
-        <div class="panel-head">
-          <p class="panel-kicker">Selection</p>
-          <h2 id="selection-title">Demo Setup</h2>
-        </div>
-
-        <div class="selection-group">
-          <span class="group-label">Anatomy Model</span>
-          <div class="chip-grid" id="organ-group">
-            <button class="choice-chip is-active" type="button" data-organ="heart">
-              <span class="chip-title">Heart</span>
-              <span class="chip-meta">Cardiac structure</span>
-            </button>
-            <button class="choice-chip" type="button" data-organ="lungs">
-              <span class="chip-title">Lungs</span>
-              <span class="chip-meta">Respiratory system</span>
-            </button>
-            <button class="choice-chip" type="button" data-organ="brain">
-              <span class="chip-title">Brain</span>
-              <span class="chip-meta">Neural anatomy</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="selection-group">
-          <span class="group-label">Profile</span>
-          <div class="toggle-row">
-            <button class="mini-toggle is-active" type="button" data-age="adult">Adult</button>
-            <button class="mini-toggle" type="button" data-age="child">Child</button>
-          </div>
-          <div class="toggle-row">
-            <button class="mini-toggle is-active" type="button" data-gender="male">Male</button>
-            <button class="mini-toggle" type="button" data-gender="female">Female</button>
-          </div>
-        </div>
-
-        <section class="info-card" aria-labelledby="model-name">
-          <p class="info-kicker" id="model-profile">Adult Male</p>
-          <h3 id="model-name">Heart</h3>
-          <p id="model-description">
-            Explore a life-scale cardiac model in 3D, then place it in your environment in AR.
-          </p>
-        </section>
-
-        <p class="support-note" id="support-note">
-          Best results on mobile over HTTPS. Desktop stays in interactive 3D preview mode.
+  <div class="app-shell">
+    <section id="landing-screen" class="screen screen-active landing-screen" aria-labelledby="landing-title">
+      <div class="landing-copy">
+        <p class="eyebrow">Interactive Anatomy Demo</p>
+        <h1 id="landing-title">Explore human organs in 3D, then launch them in AR.</h1>
+        <p class="lead">
+          A clean study flow for anatomy demos: choose an organ, optionally set age and gender, then inspect the model with guided hotspots.
         </p>
-      </section>
+        <div class="organ-preview-strip" aria-label="Featured organs">
+          <span>Heart</span>
+          <span>Lungs</span>
+          <span>Brain</span>
+          <span>Liver</span>
+          <span>Kidney</span>
+          <span>Eye</span>
+        </div>
+        <button id="get-started-btn" class="primary-button" type="button">Get Started</button>
+      </div>
+      <div class="landing-panel">
+        <div class="hero-card">
+          <p class="card-label">Includes</p>
+          <ul class="hero-list">
+            <li>11 organ models</li>
+            <li>Step-by-step selection flow</li>
+            <li>Interactive hotspot study mode</li>
+            <li>iPhone Quick Look AR for supported organs</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-      <section class="viewer-panel">
-        <div class="viewer-frame">
+    <section id="setup-screen" class="screen setup-screen" aria-labelledby="step-title" hidden>
+      <div class="setup-card">
+        <div class="step-header">
+          <div>
+            <p class="eyebrow" id="step-eyebrow">Step 1 of 3</p>
+            <h2 id="step-title">Choose an organ</h2>
+          </div>
+          <button id="back-step-btn" class="ghost-button" type="button" hidden>Back</button>
+        </div>
+
+        <div class="progress-track" aria-hidden="true">
+          <span id="progress-fill"></span>
+        </div>
+
+        <div id="step-content" class="step-content">
+          <div id="organ-step" class="step-panel"></div>
+          <div id="age-step" class="step-panel" hidden></div>
+          <div id="gender-step" class="step-panel" hidden></div>
+        </div>
+
+        <div class="step-actions">
+          <button id="skip-step-btn" class="ghost-button" type="button" hidden>Skip</button>
+          <button id="continue-step-btn" class="primary-button" type="button" disabled>Continue</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="viewer-screen" class="screen viewer-screen" hidden>
+      <div class="viewer-layout">
+        <aside class="viewer-sidebar">
+          <div class="sidebar-top">
+            <p class="eyebrow">Selected Model</p>
+            <h2 id="model-name">Heart</h2>
+            <p id="model-profile" class="profile-pill">Adult Male</p>
+            <p id="model-description" class="sidebar-copy">
+              Inspect a realistic cardiac model, then launch it into your room in AR for scale and placement.
+            </p>
+          </div>
+
+          <div class="sidebar-actions">
+            <button id="change-selection-btn" class="ghost-button" type="button">Change Selection</button>
+            <button id="restart-btn" class="ghost-button" type="button">Start Over</button>
+          </div>
+
+          <p id="support-note" class="support-note"></p>
+        </aside>
+
+        <main class="viewer-card">
           <div class="viewer-topbar">
             <div>
-              <p class="viewer-kicker">Study Mode</p>
+              <p class="eyebrow">Study Mode</p>
               <h2 id="viewer-title">Heart</h2>
             </div>
-            <button id="ar-launch-btn" class="cta-button" type="button">View In AR</button>
+            <button id="ar-launch-btn" class="primary-button compact" type="button">View In AR</button>
           </div>
 
           <model-viewer
@@ -100,16 +118,14 @@
             auto-rotate-delay="0"
             rotation-per-second="18deg"
             scale="1 1 1"
-            ios-src="models/heart/heart_adult_male.usdz"
-            src="models/heart/heart.glb">
-            <button class="ar-slot-btn" slot="ar-button" type="button">
-              Launch AR
-            </button>
+            src="models/heart/heart.glb"
+            ios-src="models/heart/heart_adult_male.usdz">
+            <button class="ar-slot-btn" slot="ar-button" type="button">Launch AR</button>
           </model-viewer>
 
-          <div id="part-dots" class="viewer-footer">
+          <div class="learning-panel">
             <div class="part-panel-copy">
-              <p class="footer-label">Highlighted Structure</p>
+              <p class="eyebrow">Highlighted Structure</p>
               <h3 id="part-title">Select a highlighted part</h3>
               <p id="part-text" class="part-text">
                 Tap a glowing point on the model to see a short explanation here.
@@ -118,9 +134,9 @@
             </div>
             <div id="part-list" class="part-list" aria-label="Anatomy parts"></div>
           </div>
-        </div>
-      </section>
-    </main>
+        </main>
+      </div>
+    </section>
   </div>
 
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>

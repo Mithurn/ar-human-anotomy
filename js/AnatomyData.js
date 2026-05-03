@@ -2,154 +2,258 @@ export const ANATOMY_DATA = {
   heart: {
     left_ventricle: {
       name: "Left Ventricle",
-      description: "The main pumping chamber. Sends oxygenated blood out to the entire body through the aorta."
+      description: "The main pumping chamber that sends oxygen-rich blood into the aorta and out to the body.",
+      whyItMatters: "Its muscular wall generates the pressure needed to circulate blood through the entire body."
     },
     right_ventricle: {
       name: "Right Ventricle",
-      description: "Pumps deoxygenated blood from the heart to the lungs to pick up oxygen."
+      description: "This chamber pumps oxygen-poor blood from the heart to the lungs.",
+      whyItMatters: "It drives blood toward the lungs so gas exchange can happen."
     },
     left_atrium: {
       name: "Left Atrium",
-      description: "Receives oxygen-rich blood returning from the lungs via the pulmonary veins."
-    },
-    right_atrium: {
-      name: "Right Atrium",
-      description: "Receives oxygen-depleted blood from the body through the superior and inferior vena cava."
+      description: "The upper chamber that receives oxygen-rich blood returning from the lungs.",
+      whyItMatters: "It passes freshly oxygenated blood into the left ventricle."
     },
     aorta: {
       name: "Aorta",
-      description: "The largest artery in the body. Carries oxygenated blood from the left ventricle to the rest of the body."
-    },
-    pulmonary_artery: {
-      name: "Pulmonary Artery",
-      description: "Carries deoxygenated blood from the right ventricle to the lungs. Unique - an artery carrying deoxygenated blood."
-    },
-    mitral_valve: {
-      name: "Mitral Valve",
-      description: "Controls blood flow between the left atrium and left ventricle. Has two leaflets."
-    },
-    tricuspid_valve: {
-      name: "Tricuspid Valve",
-      description: "Controls blood flow between the right atrium and right ventricle. Has three leaflets."
+      description: "The body’s largest artery, carrying oxygen-rich blood away from the heart.",
+      whyItMatters: "It is the main highway for systemic blood flow."
     },
     coronary_artery: {
       name: "Coronary Artery",
-      description: "Supplies blood to the heart muscle itself. Blockage here causes a heart attack."
+      description: "A vessel that supplies oxygen and nutrients to the heart muscle itself.",
+      whyItMatters: "Blockage here can starve heart tissue and cause a heart attack."
     }
   },
   lungs: {
-    left_lung: {
-      name: "Left Lung",
-      description: "Has two lobes and sits slightly smaller to make room for the heart.",
-      whyItMatters: "Each breath fills this lung with oxygen-rich air that will pass into the bloodstream."
-    },
-    right_lung: {
-      name: "Right Lung",
-      description: "Has three lobes and is usually a little larger than the left lung.",
-      whyItMatters: "Its larger volume helps maximize how much oxygen you can take in with each breath."
-    },
     trachea: {
       name: "Trachea",
-      description: "The windpipe, a sturdy tube that carries air from the throat down into the chest.",
-      whyItMatters: "Its cartilage rings stop the airway from collapsing while you breathe."
+      description: "The windpipe that carries air from the throat down into the chest.",
+      whyItMatters: "Its cartilage rings help keep the airway open while you breathe."
     },
     bronchi: {
       name: "Bronchi",
-      description: "Two main branches that split from the trachea, one entering each lung before dividing again.",
-      whyItMatters: "They act like the main roadways that distribute air to smaller and smaller passages."
+      description: "Two main branches that split from the trachea and enter the lungs.",
+      whyItMatters: "They route inhaled air into smaller passages throughout each lung."
     },
-    diaphragm: {
-      name: "Diaphragm",
-      description: "The dome-shaped muscle below the lungs that moves downward when you inhale.",
-      whyItMatters: "It is the main muscle of breathing and creates the suction that pulls air into the lungs."
+    left_lung: {
+      name: "Left Lung",
+      description: "The smaller lung, shaped to leave room for the heart.",
+      whyItMatters: "It still contributes to oxygen exchange even with less total volume."
     },
-    pleura: {
-      name: "Pleura",
-      description: "A thin, double-layered membrane that wraps the lungs and lines the chest wall.",
-      whyItMatters: "Its lubricated layers let the lungs glide smoothly as the chest expands and contracts."
+    right_lung: {
+      name: "Right Lung",
+      description: "The larger lung, usually divided into three lobes.",
+      whyItMatters: "Its greater volume supports efficient gas exchange."
     },
     alveoli: {
       name: "Alveoli",
-      description: "Tiny air sacs at the ends of the smallest airways where gases are exchanged.",
-      whyItMatters: "This is where oxygen enters the blood and carbon dioxide leaves the body."
+      description: "Tiny air sacs where oxygen moves into the blood and carbon dioxide moves out.",
+      whyItMatters: "This is the core exchange surface that keeps the body oxygenated."
     }
   },
   brain: {
     cerebrum: {
       name: "Cerebrum",
-      description: "The largest brain region. Controls thought, memory, language, and voluntary movement."
-    },
-    cerebellum: {
-      name: "Cerebellum",
-      description: "The little brain at the back. Controls balance, coordination, and fine motor skills."
-    },
-    brain_stem: {
-      name: "Brain Stem",
-      description: "Controls vital automatic functions - breathing, heart rate, blood pressure, and sleep cycles."
+      description: "The largest brain region, involved in thought, memory, language, and movement.",
+      whyItMatters: "It handles many of the conscious tasks associated with perception and decision-making."
     },
     frontal_lobe: {
       name: "Frontal Lobe",
-      description: "Controls personality, decision-making, planning, and voluntary movement."
+      description: "The front part of the brain involved in planning, behavior, and voluntary movement.",
+      whyItMatters: "It supports judgment, executive control, and motor output."
     },
     temporal_lobe: {
       name: "Temporal Lobe",
-      description: "Processes sound and language. Also plays a key role in memory formation."
+      description: "A brain region important for hearing, language, and memory.",
+      whyItMatters: "It helps interpret sound and encode experiences into memory."
     },
-    parietal_lobe: {
-      name: "Parietal Lobe",
-      description: "Processes sensory information - touch, temperature, pain, and spatial awareness."
+    cerebellum: {
+      name: "Cerebellum",
+      description: "The structure at the back of the brain that coordinates balance and fine movement.",
+      whyItMatters: "It smooths movement and helps maintain posture."
     },
-    occipital_lobe: {
-      name: "Occipital Lobe",
-      description: "The visual processing center. Interprets everything we see."
+    brain_stem: {
+      name: "Brain Stem",
+      description: "The connection between the brain and spinal cord that controls automatic survival functions.",
+      whyItMatters: "It regulates breathing, heart rate, and other vital processes."
+    }
+  },
+  liver: {
+    right_lobe: {
+      name: "Right Lobe",
+      description: "The larger portion of the liver occupying most of the organ’s mass.",
+      whyItMatters: "It contributes heavily to metabolism, detoxification, and storage functions."
     },
-    corpus_callosum: {
-      name: "Corpus Callosum",
-      description: "Bundle of nerve fibers connecting the left and right hemispheres of the brain."
+    left_lobe: {
+      name: "Left Lobe",
+      description: "The smaller lobe that extends across the upper abdomen.",
+      whyItMatters: "It shares the same filtering and metabolic duties as the rest of the liver."
     },
-    hippocampus: {
-      name: "Hippocampus",
-      description: "Critical for forming new memories and spatial navigation. First affected in Alzheimer's."
+    gallbladder: {
+      name: "Gallbladder",
+      description: "A small sac tucked beneath the liver that stores bile.",
+      whyItMatters: "It releases bile to help break down fats during digestion."
+    },
+    hepatic_artery: {
+      name: "Hepatic Artery",
+      description: "A major artery delivering oxygen-rich blood to the liver.",
+      whyItMatters: "The liver needs a strong blood supply to process nutrients and toxins."
+    }
+  },
+  kidney: {
+    cortex: {
+      name: "Cortex",
+      description: "The outer layer of the kidney where much of the blood filtration begins.",
+      whyItMatters: "It contains structures that start the process of cleaning the blood."
+    },
+    medulla: {
+      name: "Medulla",
+      description: "The inner region made of pyramids and tubules that concentrate urine.",
+      whyItMatters: "It helps the body retain water and balance salts."
+    },
+    renal_pelvis: {
+      name: "Renal Pelvis",
+      description: "A funnel-like chamber that collects urine from the kidney.",
+      whyItMatters: "It channels urine toward the ureter for transport to the bladder."
+    },
+    ureter: {
+      name: "Ureter",
+      description: "The tube that carries urine from the kidney to the bladder.",
+      whyItMatters: "It keeps fluid moving one way through the urinary system."
+    }
+  },
+  stomach: {
+    esophagus: {
+      name: "Esophagus",
+      description: "The muscular tube that brings swallowed food down into the stomach.",
+      whyItMatters: "It is the entry path for food into the digestive system."
+    },
+    fundus: {
+      name: "Fundus",
+      description: "The upper curved portion of the stomach.",
+      whyItMatters: "It helps store food and gas after swallowing."
+    },
+    body: {
+      name: "Body",
+      description: "The central region of the stomach where mixing and chemical digestion occur.",
+      whyItMatters: "It churns food with acids and enzymes to form chyme."
+    },
+    pylorus: {
+      name: "Pylorus",
+      description: "The lower region that controls emptying from the stomach into the small intestine.",
+      whyItMatters: "It regulates how quickly partially digested food leaves the stomach."
+    }
+  },
+  eye: {
+    cornea: {
+      name: "Cornea",
+      description: "The clear outer dome at the front of the eye.",
+      whyItMatters: "It provides much of the eye’s focusing power."
+    },
+    iris: {
+      name: "Iris",
+      description: "The colored ring that controls the size of the pupil.",
+      whyItMatters: "It adjusts how much light enters the eye."
+    },
+    lens: {
+      name: "Lens",
+      description: "A transparent structure behind the pupil that fine-tunes focus.",
+      whyItMatters: "It helps sharpen vision for near and distant objects."
+    },
+    optic_nerve: {
+      name: "Optic Nerve",
+      description: "The nerve bundle that carries visual signals from the eye to the brain.",
+      whyItMatters: "Without it, visual information cannot reach the brain for interpretation."
+    }
+  },
+  pancreas: {
+    head: {
+      name: "Head",
+      description: "The broader right-sided portion of the pancreas near the duodenum.",
+      whyItMatters: "It sits where digestive secretions can enter the small intestine efficiently."
+    },
+    body: {
+      name: "Body",
+      description: "The central portion of the pancreas stretching across the upper abdomen.",
+      whyItMatters: "It contains tissue involved in both digestion and hormone production."
+    },
+    tail: {
+      name: "Tail",
+      description: "The narrow left end of the pancreas extending toward the spleen.",
+      whyItMatters: "It contains cells involved in releasing important metabolic hormones."
+    },
+    pancreatic_duct: {
+      name: "Pancreatic Duct",
+      description: "The channel that carries pancreatic digestive enzymes toward the intestine.",
+      whyItMatters: "It helps deliver enzymes needed to break down fats, proteins, and carbohydrates."
+    }
+  },
+  intestines: {
+    duodenum: {
+      name: "Duodenum",
+      description: "The first part of the small intestine immediately after the stomach.",
+      whyItMatters: "It receives acidic stomach contents plus bile and pancreatic enzymes."
+    },
+    small_intestine: {
+      name: "Small Intestine",
+      description: "The long coiled segment where most nutrient absorption occurs.",
+      whyItMatters: "It is the main site where the body takes in usable nutrients."
+    },
+    large_intestine: {
+      name: "Large Intestine",
+      description: "The wider intestinal segment that absorbs water and forms stool.",
+      whyItMatters: "It helps maintain fluid balance and prepare waste for elimination."
+    },
+    rectum: {
+      name: "Rectum",
+      description: "The final storage segment at the end of the large intestine.",
+      whyItMatters: "It holds waste before elimination."
+    }
+  },
+  uterus: {
+    fundus: {
+      name: "Fundus",
+      description: "The rounded top of the uterus above the openings of the fallopian tubes.",
+      whyItMatters: "It is an important landmark in reproductive anatomy and pregnancy assessment."
+    },
+    body: {
+      name: "Body",
+      description: "The main muscular portion of the uterus.",
+      whyItMatters: "It supports the uterine lining and expands during pregnancy."
+    },
+    cervix: {
+      name: "Cervix",
+      description: "The lower narrow part of the uterus that opens into the vagina.",
+      whyItMatters: "It acts as a passageway and protective barrier between the uterus and vagina."
+    },
+    fallopian_tube: {
+      name: "Fallopian Tube",
+      description: "A tube connecting the ovary region to the uterus.",
+      whyItMatters: "It is where fertilization commonly occurs before an embryo reaches the uterus."
+    }
+  },
+  bladder: {
+    bladder_body: {
+      name: "Bladder Body",
+      description: "The main hollow reservoir that stores urine.",
+      whyItMatters: "It allows the body to collect urine before elimination."
+    },
+    detrusor_muscle: {
+      name: "Detrusor Muscle",
+      description: "The smooth muscle layer that forms the bladder wall.",
+      whyItMatters: "It contracts to push urine out during urination."
+    },
+    ureter_opening: {
+      name: "Ureter Opening",
+      description: "The region where urine enters the bladder from the ureters.",
+      whyItMatters: "It marks the inflow route from the kidneys."
+    },
+    urethra: {
+      name: "Urethra",
+      description: "The outlet tube that carries urine out of the body.",
+      whyItMatters: "It completes the final step of urinary flow."
     }
   }
-};
-
-export const GUIDED_LEARNING = {
-  lungs: [
-    {
-      key: "trachea",
-      label: "Trachea",
-      anchor: { x: 0, y: 0.47, z: 0.16 }
-    },
-    {
-      key: "bronchi",
-      label: "Bronchi",
-      anchor: { x: 0.02, y: 0.21, z: 0.18 }
-    },
-    {
-      key: "left_lung",
-      label: "Left Lung",
-      anchor: { x: -0.28, y: 0.08, z: 0.18 }
-    },
-    {
-      key: "right_lung",
-      label: "Right Lung",
-      anchor: { x: 0.28, y: 0.08, z: 0.18 }
-    },
-    {
-      key: "pleura",
-      label: "Pleura",
-      anchor: { x: 0.34, y: -0.02, z: 0.28 }
-    },
-    {
-      key: "alveoli",
-      label: "Alveoli",
-      anchor: { x: -0.12, y: -0.1, z: 0.24 }
-    },
-    {
-      key: "diaphragm",
-      label: "Diaphragm",
-      anchor: { x: 0, y: -0.4, z: 0.12 }
-    }
-  ]
 };
